@@ -29,7 +29,7 @@ public class GameTest {
         game.addPlayer(player2);
         game.deal(2);
         assertEquals(2, player1.sizeOfHand());
-        assertEquals(48, deck.sizeOfDeck());
+        assertEquals(46, deck.sizeOfDeck());
     }
 
 
@@ -52,5 +52,41 @@ public class GameTest {
         game.addPlayer(player1);
         game.addPlayer(player2);
         assertEquals(true, game.checkDraw());
+    }
+
+    @Test
+    public void canPlayTurn() {
+        deck.populate();
+        deck.shuffle();
+        game.addPlayer(player1);
+        game.addPlayer(player2);
+        game.deal(2);
+        game.turn(player1, TurnType.TWIST);
+        game.turn(player2, TurnType.STICK);
+        assertEquals(3, player1.sizeOfHand());
+        assertEquals(2, player2.sizeOfHand());
+    }
+
+    @Test
+    public void dealerHasCards() {
+        deck.addCard(card1);
+        deck.addCard(card2);
+        deck.addCard(card2);
+        deck.addCard(card2);
+        game.deal(2);
+        assertEquals(11, game.getDealerHand());
+
+    }
+
+    @Test
+    public void dealerTwistIfUnder16() {
+        deck.addCard(card1);
+        deck.addCard(card2);
+        deck.addCard(card1);
+        deck.addCard(card2);
+        game.deal(2);
+        game.dealerTurn();
+        assertEquals(12, game.getDealerHand());
+        assertEquals("Twist", game.dealerTurn());
     }
 }

@@ -31,12 +31,12 @@ public class PlayerTest {
         player.addCard(card);
         assertEquals(20, player.getHandValue());
     }
-//
+
 //    @Test
 //    public void playerCanTwist() {
 //        player.addCard(card);
 //        player.addCard(card);
-//        player.turn("twist");
+//        player.turn(card);
 //        assertEquals(3, player.sizeOfHand());
 //    }
 }

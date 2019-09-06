@@ -24,10 +24,10 @@ public class DeckTest {
         assertEquals(1, deck.sizeOfDeck());
     }
 
-                @Test
-        public void canPopulateDeck(){
-            deck.populate();
-            assertEquals(52, deck.sizeOfDeck());
+    @Test
+    public void canPopulateDeck(){
+        deck.populate();
+        assertEquals(52, deck.sizeOfDeck());
         }
 
     @Test
