@@ -74,7 +74,7 @@ public class GameTest {
         deck.addCard(card2);
         deck.addCard(card2);
         game.deal(2);
-        assertEquals(11, game.getDealerHand());
+        assertEquals(21, game.getDealerHand());
 
     }
 
@@ -86,7 +86,11 @@ public class GameTest {
         deck.addCard(card2);
         game.deal(2);
         game.dealerTurn();
-        assertEquals(12, game.getDealerHand());
-        assertEquals("Twist", game.dealerTurn());
+        assertEquals(21, game.getDealerHand());
+        assertEquals("Stick", game.dealerTurn());
     }
+
+
+
+
 }

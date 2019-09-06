@@ -71,7 +71,7 @@ public class Game {
             dealer.addCard(deck.removeCard());
             turnType = "Twist";
         } else {
-            turnType = "stick";
+            turnType = "Stick";
         }
         return turnType;
     }

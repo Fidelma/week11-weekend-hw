@@ -15,7 +15,7 @@ public class Deck {
         SuitType[] suits = SuitType.values();
         RankType[] ranks = RankType.values();
 
-        for (SuitType suit: suits){
+        for (SuitType suit : suits){
             for(RankType rank: ranks){
                 cards.add(new Card(suit, rank));
             }
