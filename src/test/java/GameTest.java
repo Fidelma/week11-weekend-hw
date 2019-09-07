@@ -8,6 +8,7 @@ public class GameTest {
     Deck deck;
     Player player1;
     Player player2;
+    Player player3;
     Card card1;
     Card card2;
 
@@ -16,6 +17,7 @@ public class GameTest {
         deck = new Deck();
         player1 = new Player("Player1");
         player2 = new Player("Player2");
+        player3 = new Player("Player3");
         game = new Game(deck);
         card1 = new Card(SuitType.HEARTS, RankType.ACE);
         card2 = new Card(SuitType.HEARTS, RankType.TEN);
@@ -61,8 +63,8 @@ public class GameTest {
         game.addPlayer(player1);
         game.addPlayer(player2);
         game.deal(2);
-        game.turn(player1, TurnType.TWIST);
-        game.turn(player2, TurnType.STICK);
+        game.turn(player1, "twist");
+        game.turn(player2, "stick");
         assertEquals(3, player1.sizeOfHand());
         assertEquals(2, player2.sizeOfHand());
     }
@@ -90,7 +92,36 @@ public class GameTest {
         assertEquals("Stick", game.dealerTurn());
     }
 
+    @Test
+    public void canTakeStringSelectionForTurnType() {
+        deck.populate();
+        deck.shuffle();
+        game.addPlayer(player1);
+        game.addPlayer(player2);
+        game.deal(2);
 
+        assertEquals(true, game.turn(player1, "twist"));
+        assertEquals(true, game.turn(player2, "stick"));
+        assertEquals(false, game.turn(player3, "sk"));
 
+    }
 
+    @Test
+    public void canSeeDealerCard() {
+        deck.addCard(card1);
+        deck.addCard(card2);
+        game.deal(2);
+        assertEquals("ACE of HEARTS", game.showDealerCard());
+    }
+
+    @Test
+    public void canGetPlayers() {
+        deck.populate();
+        deck.shuffle();
+        game.addPlayer(player1);
+        game.addPlayer(player2);
+        game.deal(2);
+        Player playerX = game.getPlayer(0);
+        assertEquals("Player1", playerX.getName());
+    }
 }

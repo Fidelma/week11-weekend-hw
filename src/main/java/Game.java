@@ -18,8 +18,9 @@ public class Game {
     }
 
     public void deal(int numberOfCards){
-        dealer.addCard(deck.removeCard());
-        dealer.addCard(deck.removeCard());
+        for(int i = 0; i < numberOfCards; i ++){
+            dealer.addCard(deck.removeCard());
+        }
         for (Player player : players){
             for(int i = 0; i < numberOfCards; i ++) {
                 player.addCard(deck.removeCard());
@@ -55,10 +56,22 @@ public class Game {
         return winner;
     }
 
-    public void turn(Player player, TurnType turn) {
-        if (turn == TurnType.TWIST){
+    public boolean turn(Player player, String turn) {
+        TurnType turnType;
+        boolean validTurn = false;
+        if(turn == "twist"){
+            turnType = TurnType.TWIST;
+            validTurn = true;
+        } else if(turn == "stick"){
+            turnType = TurnType.STICK;
+            validTurn = true;
+        }else {
+            turnType = TurnType.STICK;
+        }
+        if (turnType == TurnType.TWIST){
             player.addCard(deck.removeCard());
         }
+        return validTurn;
     }
 
     public int getDealerHand() {
@@ -74,5 +87,13 @@ public class Game {
             turnType = "Stick";
         }
         return turnType;
+    }
+
+    public String showDealerCard() {
+        return dealer.showCard(0);
+    }
+
+    public Player getPlayer(int i) {
+        return players.get(i);
     }
 }

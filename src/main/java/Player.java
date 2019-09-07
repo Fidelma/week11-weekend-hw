@@ -61,6 +61,11 @@ public class Player {
         return blackJack;
     }
 
+    public String showCard(int cardPosition) {
+        Card card = hand.get(cardPosition);
+        return String.format("%s of %s", card.getRank(), card.getSuit());
+    }
+
 //    public void turn(String action) {
 //        if(action == "twist"){
 //            addCard()

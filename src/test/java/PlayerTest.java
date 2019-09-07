@@ -73,7 +73,12 @@ public class PlayerTest {
         assertEquals(true, player.blackJack());
     }
 
-    
+    @Test
+    public void canShowCard() {
+        player.addCard(card);
+        player.addCard(card2);
+        assertEquals("KING of HEARTS", player.showCard(0));
+    }
 
     //    @Test
 //    public void playerCanTwist() {
