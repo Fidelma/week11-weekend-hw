@@ -80,6 +80,12 @@ public class PlayerTest {
         assertEquals("KING of HEARTS", player.showCard(0));
     }
 
+    @Test
+    public void canShowAllCards() {
+        player.addCard(card);
+        player.addCard(card2);
+        assertEquals("cards: KING of HEARTS, ACE of HEARTS, ", player.showHand());
+    }
     //    @Test
 //    public void playerCanTwist() {
 //        player.addCard(card);

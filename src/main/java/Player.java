@@ -4,10 +4,12 @@ public class Player {
 
     private String name;
     private ArrayList<Card> hand;
+    private ArrayList<String> handAsString;
 
     public Player(String name){
         this.name = name;
         this.hand = new ArrayList<Card>();
+        this.handAsString = new ArrayList<String>();
     }
 
     public String getName(){
@@ -64,6 +66,19 @@ public class Player {
     public String showCard(int cardPosition) {
         Card card = hand.get(cardPosition);
         return String.format("%s of %s", card.getRank(), card.getSuit());
+    }
+
+    public String showHand() {
+        handAsString.clear();
+        for(int i = 0; i < hand.size(); i ++){
+            handAsString.add(showCard(i));
+        }
+        String hand = "cards: ";
+        for(String card: handAsString){
+            hand += card;
+            hand += ", ";
+        }
+        return hand;
     }
 
 //    public void turn(String action) {

@@ -40,10 +40,13 @@ public class GameTest {
     public void canPlayGame() {
         deck.populate();
         game.addPlayer(player2);
-        game.addPlayer(player1);
         game.deal(2);
-        assertEquals(player1, game.play());
+        game.play();
+        assertEquals(1, game.getNumberOfWinners());
+        assertEquals("Winners: dealer, ", game.getWinnerNames());
     }
+
+
 
     @Test
     public void canCheckDraw() {
@@ -63,10 +66,9 @@ public class GameTest {
         game.addPlayer(player1);
         game.addPlayer(player2);
         game.deal(2);
-        game.turn(player1, "twist");
-        game.turn(player2, "stick");
+        game.turn(player1);
+        game.turn(player2);
         assertEquals(3, player1.sizeOfHand());
-        assertEquals(2, player2.sizeOfHand());
     }
 
     @Test
@@ -92,19 +94,19 @@ public class GameTest {
         assertEquals("Stick", game.dealerTurn());
     }
 
-    @Test
-    public void canTakeStringSelectionForTurnType() {
-        deck.populate();
-        deck.shuffle();
-        game.addPlayer(player1);
-        game.addPlayer(player2);
-        game.deal(2);
-
-        assertEquals(true, game.turn(player1, "twist"));
-        assertEquals(true, game.turn(player2, "stick"));
-        assertEquals(false, game.turn(player3, "sk"));
-
-    }
+//    @Test
+//    public void canTakeStringSelectionForTurnType() {
+//        deck.populate();
+//        deck.shuffle();
+//        game.addPlayer(player1);
+//        game.addPlayer(player2);
+//        game.deal(2);
+//
+//        assertEquals(true, game.turn(player1, "twist"));
+//        assertEquals(true, game.turn(player2, "stick"));
+//        assertEquals(false, game.turn(player3, "sk"));
+//
+//    }
 
     @Test
     public void canSeeDealerCard() {
@@ -124,4 +126,11 @@ public class GameTest {
         Player playerX = game.getPlayer(0);
         assertEquals("Player1", playerX.getName());
     }
+
+    @Test
+    public void canGetTurnType() {
+        assertEquals(TurnType.TWIST, game.getTurnType("twist"));
+    }
+
+
 }

@@ -4,12 +4,14 @@ public class Game {
     private Deck deck;
     private ArrayList<Player> players;
     private Player dealer;
+    private ArrayList<Player> winners;
 
 
     public Game(Deck deck){
         this.deck = deck;
         this.players = new ArrayList<Player>();
         this.dealer = new Player("dealer");
+        this.winners = new ArrayList<Player>();
 
     }
 
@@ -30,7 +32,7 @@ public class Game {
 
     public boolean checkDraw() {
         boolean draw = true;
-        int drawHand = players.get(0).getHandValue();
+        int drawHand = dealer.getHandValue();
         for (Player player : players){
             if (player.getHandValue() != drawHand){
                 draw = false;
@@ -40,38 +42,35 @@ public class Game {
     }
 
 
-    public Player play(){
-        int highest = 0;
-        Player winner = null;
+    public void play(){
+        if (dealer.getHandValue() == 21 && dealer.sizeOfHand() == 2){
+            winners.add(dealer);
+        }
 
+        for(Player blackJack: players){
+            if(winners.size() == 0) {
+                if (blackJack.getHandValue() == 21 && blackJack.sizeOfHand() == 2) {
+                    winners.add(blackJack);
+                }
+            }
+        }
 
         for (Player player : players){
-            if(player.getHandValue() > highest){
-                highest = player.getHandValue();
-                winner = player;
+            if(winners.size() == 0) {
+                if (player.getHandValue() > dealer.getHandValue() && player.getHandValue() <= 21) {
+                    winners.add(player);
+                } else if(winners.size()== 0 && dealer.getHandValue() <= 21){
+                    winners.add(dealer);
+                }
             }
 
         }
 
-        return winner;
     }
 
-    public boolean turn(Player player, String turn) {
-        TurnType turnType;
-        boolean validTurn = false;
-        if(turn == "twist"){
-            turnType = TurnType.TWIST;
-            validTurn = true;
-        } else if(turn == "stick"){
-            turnType = TurnType.STICK;
-            validTurn = true;
-        }else {
-            turnType = TurnType.STICK;
-        }
-        if (turnType == TurnType.TWIST){
-            player.addCard(deck.removeCard());
-        }
-        return validTurn;
+    public void turn(Player player) {
+
+        player.addCard(deck.removeCard());
     }
 
     public int getDealerHand() {
@@ -83,7 +82,9 @@ public class Game {
         if(dealer.getHandValue() < 16){
             dealer.addCard(deck.removeCard());
             turnType = "Twist";
-        } else {
+        } else if(dealer.getHandValue() > 21){
+            turnType = "bust";
+        }else {
             turnType = "Stick";
         }
         return turnType;
@@ -95,5 +96,30 @@ public class Game {
 
     public Player getPlayer(int i) {
         return players.get(i);
+    }
+
+    public TurnType getTurnType(String turn) {
+        TurnType turnType;
+        if (turn.equalsIgnoreCase("twist")) {
+            turnType = TurnType.TWIST;
+        } else if (turn.equalsIgnoreCase("stick")) {
+            turnType = TurnType.STICK;
+        } else {
+            turnType = TurnType.FAULT;
+        }
+        return turnType;
+    }
+
+    public int getNumberOfWinners() {
+        return winners.size();
+    }
+
+    public String getWinnerNames(){
+        String winners = "Winners: ";
+        for( Player player : this.winners){
+            winners += player.getName();
+            winners += ", ";
+        }
+        return winners;
     }
 }

@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import static java.lang.Integer.parseInt;
@@ -31,20 +32,63 @@ public class Runner {
         System.out.println(String.format("dealer card: %s", game.showDealerCard()));
 
         for(int i = 0; i < players; i ++) {
-            String output = String.format("%s cards: %s and %s", game.getPlayer(i).getName(), game.getPlayer(i).showCard(0), game.getPlayer(i).showCard(1));
-            System.out.println(output);
+            System.out.println(game.getPlayer(i).getName());
+            System.out.println(game.getPlayer(i).showHand());
             int initialValue = game.getPlayer(i).getHandValue();
             System.out.println(String.format("total value: %s", initialValue));
-            System.out.println("Would you like to twist or stick?");
-            String turnType = scanner.next();
-            boolean validTurn = game.turn(game.getPlayer(i), turnType);
-            if(validTurn){
+
+            boolean keepPlaying = true;
+
+            while(keepPlaying){
+                System.out.println("Would you like to twist or stick?");
+                String chooseTurn = scanner.next();
+                TurnType turnType = game.getTurnType(chooseTurn);
+                String output;
+                if(turnType == TurnType.TWIST){
+                    game.turn(game.getPlayer(i));
+                    keepPlaying = true;
+                    output = "Your turn again";
+                }else if (turnType == TurnType.FAULT){
+                    keepPlaying = true;
+                    output = "sorry invalid input. Please try again";
+                }else {
+                    keepPlaying = false;
+                    output = "Stick. End of turn";
+            }
                 int totalValue = game.getPlayer(i).getHandValue();
-                System.out.println(String.format("total value: %s", totalValue));
-            } else {
-                System.out.println("invalid turn type");
+                String valueAfterTurn;
+                if(totalValue > 21){
+                    valueAfterTurn = "Sorry you've gone bust";
+                    keepPlaying = false;
+                } else {
+                    valueAfterTurn = String.format("total value: %s", totalValue);
+                    System.out.println(output);
+                }
+
+                System.out.println(game.getPlayer(i).showHand());
+                System.out.println(valueAfterTurn);
             }
         }
+
+
+        boolean dealerGo = true;
+        String dealerTurn;
+        while(dealerGo){
+            System.out.println("dealer turn");
+            System.out.println(game.getDealerHand());
+            dealerTurn = game.dealerTurn();
+            System.out.println(dealerTurn);
+            System.out.println(game.getDealerHand());
+            if (dealerTurn.equalsIgnoreCase("stick")) {
+                dealerGo = false;
+
+            } else if(dealerTurn.equalsIgnoreCase("bust")){
+                dealerGo = false;
+            }
+        }
+
+        game.play();
+        System.out.println(game.getWinnerNames());
 
 
     }
