@@ -48,23 +48,22 @@ public class Game {
         }
 
         for(Player blackJack: players){
-            if(winners.size() == 0) {
                 if (blackJack.getHandValue() == 21 && blackJack.sizeOfHand() == 2) {
                     winners.add(blackJack);
-                }
             }
         }
 
-        for (Player player : players){
-            if(winners.size() == 0) {
+        if(winners.size() == 0) {
+            for (Player player : players) {
                 if (player.getHandValue() > dealer.getHandValue() && player.getHandValue() <= 21) {
                     winners.add(player);
-                } else if(winners.size()== 0 && dealer.getHandValue() <= 21){
-                    winners.add(dealer);
                 }
             }
-
         }
+
+        if(winners.size() == 0 && dealer.getHandValue() <= 21){
+                winners.add(dealer);
+            }
 
     }
 
@@ -83,7 +82,7 @@ public class Game {
             dealer.addCard(deck.removeCard());
             turnType = "Twist";
         } else if(dealer.getHandValue() > 21){
-            turnType = "bust";
+            turnType = "Bust";
         }else {
             turnType = "Stick";
         }

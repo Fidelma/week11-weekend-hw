@@ -11,6 +11,7 @@ public class GameTest {
     Player player3;
     Card card1;
     Card card2;
+    Card card3;
 
     @Before
     public void setup(){
@@ -21,6 +22,7 @@ public class GameTest {
         game = new Game(deck);
         card1 = new Card(SuitType.HEARTS, RankType.ACE);
         card2 = new Card(SuitType.HEARTS, RankType.TEN);
+        card3 = new Card(SuitType.HEARTS, RankType.SIX);
     }
 
     @Test
@@ -132,5 +134,20 @@ public class GameTest {
         assertEquals(TurnType.TWIST, game.getTurnType("twist"));
     }
 
-
+    @Test
+    public void canGetWinnerNames() {
+        deck.addCard(card3);
+        deck.addCard(card2);
+        deck.addCard(card2);
+        deck.addCard(card2);
+        deck.addCard(card2);
+        deck.addCard(card2);
+        deck.addCard(card2);
+        game.addPlayer(player1);
+        game.addPlayer(player2);
+        game.deal(2);
+        game.play();
+        assertEquals("Winners: Player1, Player2, ", game.getWinnerNames());
+        assertEquals(2, game.getNumberOfWinners());
+    }
 }
