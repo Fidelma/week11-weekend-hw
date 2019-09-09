@@ -57,6 +57,8 @@ public class Game {
             for (Player player : players) {
                 if (player.getHandValue() > dealer.getHandValue() && player.getHandValue() <= 21) {
                     winners.add(player);
+                } else if (dealer.checkIfBust()== "bust" && player.getHandValue() <=21) {
+                    winners.add(player);
                 }
             }
         }
